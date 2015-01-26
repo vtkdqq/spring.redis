@@ -1,0 +1,1 @@
+E:\redis\redis-server.exe  E:\redis\redis.conf
