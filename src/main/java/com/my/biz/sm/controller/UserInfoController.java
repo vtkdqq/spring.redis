@@ -11,13 +11,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.my.biz.sm.commons.annotation.SysOperaLog;
+import com.my.biz.sm.commons.annotation.SysOperaLog.Type;
 import com.my.biz.sm.commons.page.Page;
 import com.my.biz.sm.commons.page.PageData;
 import com.my.biz.sm.commons.page.PageParam;
 import com.my.biz.sm.commons.token.Token;
+import com.my.biz.sm.commons.util.SessionUtils;
 import com.my.biz.sm.entity.UserInfo;
 import com.my.biz.sm.service.IUserCacheManager;
 import com.my.biz.sm.service.UserService;
+import com.my.biz.sm.vo.SysUserVo;
 
 @Controller
 public class UserInfoController
@@ -31,9 +35,15 @@ public class UserInfoController
     private UserService userService;
 
     @RequestMapping(value = "/index")
-    public String index(Page p,UserInfo userInfo, Model model)
+    @SysOperaLog(operaDes = "用户管理-用户列表", operaType = Type.QUERY)
+    public String index(Page p,SysUserVo sysUserVo, Model model)
     {
-        PageParam<UserInfo> param = new PageParam<UserInfo>(userInfo,p.getPageNo(), p.getPageSize());
+        //做测试用
+        sysUserVo.setId("1");
+        sysUserVo.setUserName("admin");
+        SessionUtils.setSessionUser(sysUserVo);
+        
+        PageParam<UserInfo> param = new PageParam<UserInfo>(p.getPageNo(), p.getPageSize());
         PageData<UserInfo> data = userService.findUserInfo(param);
         model.addAttribute("data", data);
         return "index";

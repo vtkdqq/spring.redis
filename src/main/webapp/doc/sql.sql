@@ -37,6 +37,16 @@ CREATE TABLE `sys_oper_logs` (
 ) ENGINE=InnoDB AUTO_INCREMENT=26766 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 
-
+CREATE TABLE `sys_audit_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `flowId` bigint(20) DEFAULT NULL,
+  `remark` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `flowType` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `userName` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `userId` bigint(20) DEFAULT NULL,
+  `createTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_sys_audit_log` (`createTime`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1478 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 

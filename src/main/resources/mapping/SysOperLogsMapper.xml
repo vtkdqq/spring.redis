@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.my.biz.sm.db.ISysOperLogsDao" >
+  <resultMap id="BaseResultMap" type="com.my.biz.sm.entity.SysOperLogs" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="opera_type" property="operaType" jdbcType="VARCHAR" />
+    <result column="opera_des" property="operaDes" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="oldvalue" property="oldvalue" jdbcType="VARCHAR" />
+    <result column="newvalue" property="newvalue" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+      <if test="createTimeStart != null and createTimeEnd!=null" >
+	    	and (create_time BETWEEN STR_TO_DATE(#{createTimeStart},'%Y-%m-%d %H:%i:%s')
+	  		AND STR_TO_DATE(#{createTimeEnd},'%Y-%m-%d %H:%i:%s'))
+	   </if>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, userid, username, opera_type, opera_des, url, oldvalue, newvalue, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.my.biz.sm.db.SysOperLogsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_oper_logs
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>    
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_oper_logs
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_oper_logs
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.my.biz.sm.db.SysOperLogsExample" >
+    delete from sys_oper_logs
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.my.biz.sm.entity.SysOperLogs" >
+    insert into sys_oper_logs (id, userid, username, 
+      opera_type, opera_des, url, 
+      oldvalue, newvalue, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{operaType,jdbcType=VARCHAR}, #{operaDes,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{oldvalue,jdbcType=VARCHAR}, #{newvalue,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.my.biz.sm.entity.SysOperLogs" >
+    insert into sys_oper_logs
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="operaType != null" >
+        opera_type,
+      </if>
+      <if test="operaDes != null" >
+        opera_des,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="oldvalue != null" >
+        oldvalue,
+      </if>
+      <if test="newvalue != null" >
+        newvalue,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="operaType != null" >
+        #{operaType,jdbcType=VARCHAR},
+      </if>
+      <if test="operaDes != null" >
+        #{operaDes,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="oldvalue != null" >
+        #{oldvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="newvalue != null" >
+        #{newvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.my.biz.sm.db.SysOperLogsExample" resultType="java.lang.Integer" >
+    select count(*) from sys_oper_logs
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_oper_logs
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operaType != null" >
+        opera_type = #{record.operaType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operaDes != null" >
+        opera_des = #{record.operaDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldvalue != null" >
+        oldvalue = #{record.oldvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newvalue != null" >
+        newvalue = #{record.newvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_oper_logs
+    set id = #{record.id,jdbcType=INTEGER},
+      userid = #{record.userid,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      opera_type = #{record.operaType,jdbcType=VARCHAR},
+      opera_des = #{record.operaDes,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      oldvalue = #{record.oldvalue,jdbcType=VARCHAR},
+      newvalue = #{record.newvalue,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.my.biz.sm.entity.SysOperLogs" >
+    update sys_oper_logs
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="operaType != null" >
+        opera_type = #{operaType,jdbcType=VARCHAR},
+      </if>
+      <if test="operaDes != null" >
+        opera_des = #{operaDes,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="oldvalue != null" >
+        oldvalue = #{oldvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="newvalue != null" >
+        newvalue = #{newvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.my.biz.sm.entity.SysOperLogs" >
+    update sys_oper_logs
+    set userid = #{userid,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
+      opera_type = #{operaType,jdbcType=VARCHAR},
+      opera_des = #{operaDes,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      oldvalue = #{oldvalue,jdbcType=VARCHAR},
+      newvalue = #{newvalue,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
