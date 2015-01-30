@@ -39,5 +39,7 @@ public interface IUserCacheManager
      */
     int getUserReportCount(Long userId);
 
+    void setUserInfoRank(String userid);
+
     
 }

@@ -5,14 +5,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.util.StringUtils;
+
 import com.my.biz.sm.commons.json.JsonConverter;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
+import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
-
 
 public class JedisProxy
 {
@@ -1550,10 +1551,21 @@ public class JedisProxy
     // return jedis.zrank(key, member);
     // }
     //
-    // public Transaction multi()
-    // {
-    // return jedis.multi();
-    // }
+    
+    public Transaction multi()
+    {
+        Jedis jedis = jedisPool.getResource();
+        try
+        {
+            return jedis.multi();
+        }
+        finally
+        {
+            jedisPool.returnResource(jedis);
+        }
+        
+    }
+
     //
     // public Long zremrangeByScore(String key, double start, double end)
     // {

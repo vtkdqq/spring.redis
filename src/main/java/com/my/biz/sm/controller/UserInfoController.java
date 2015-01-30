@@ -38,6 +38,7 @@ public class UserInfoController
     @SysOperaLog(operaDes = "用户管理-用户列表", operaType = Type.QUERY)
     public String index(Page p,SysUserVo sysUserVo, Model model)
     {
+        cacheManager.setUserInfoRank(null);
         //做测试用
         sysUserVo.setId("1");
         sysUserVo.setUserName("admin");
